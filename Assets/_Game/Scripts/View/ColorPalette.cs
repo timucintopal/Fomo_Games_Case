@@ -18,6 +18,7 @@ namespace ColorBlocks.View
         private class BlockColor
         {
             public string name;
+            public Color color;
             public BlockTextures[] texturesByLength; // index = block length - 1
         }
 
@@ -27,5 +28,11 @@ namespace ColorBlocks.View
             public Texture up;
             public Texture parallel;
         }
+        
+        public Color GetColor(int colorId)
+        {
+            return colors[colorId].color;
+        }
+        
     }
 }

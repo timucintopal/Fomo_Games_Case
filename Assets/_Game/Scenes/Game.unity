@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.BoardView
   cellPrefab: {fileID: 723256265356883479, guid: 1740fb8e760af48078da54ef98bb44bd, type: 3}
-  exitPrefab: {fileID: 3212923717554495435, guid: 59ea490805e024a3da0197ff2c345a0d, type: 3}
+  exitPrefab: {fileID: 1625392514675139239, guid: 59ea490805e024a3da0197ff2c345a0d, type: 3}
   blockPrefabs:
   - {fileID: 3417894149782424116, guid: 905dee266c3304f74915473848ca9892, type: 3}
   - {fileID: 3979368505059093809, guid: 0359e61b34e4b4ce3afb649f9aceb8a8, type: 3}

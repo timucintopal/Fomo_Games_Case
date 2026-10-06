@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3601418790943602275}
+  - component: {fileID: 1625392514675139239}
   m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
@@ -33,6 +34,21 @@ Transform:
   - {fileID: 919045267946411551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1625392514675139239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3212923717554495435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 046e79775ba5e4cd38894411038afa55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.ExitView
+  renderers:
+  - {fileID: 83746158124489130}
+  - {fileID: 2056515630322740592}
 --- !u!1001 &813924134899577332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,6 +111,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8aa4a88ff59ab4b7f89a4708bdf9ef0e, type: 3}
   m_PrefabInstance: {fileID: 813924134899577332}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &2056515630322740592 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 8aa4a88ff59ab4b7f89a4708bdf9ef0e, type: 3}
+  m_PrefabInstance: {fileID: 813924134899577332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1650590215170082094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,6 +173,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cedd715db4f1046688e609b1e923555d, type: 3}
+--- !u!23 &83746158124489130 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: cedd715db4f1046688e609b1e923555d, type: 3}
+  m_PrefabInstance: {fileID: 1650590215170082094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1252751058507113157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cedd715db4f1046688e609b1e923555d, type: 3}

@@ -14,30 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.ColorPalette
   colors:
   - name: Blue
+    color: {r: 0.047379494, g: 0, b: 1, a: 1}
     texturesByLength:
     - up: {fileID: 2800000, guid: 3edb1ba8cde4e4365ad3e54dcac15852, type: 3}
       parallel: {fileID: 2800000, guid: 671ee37ba2bba4357bb09419e2e48b1d, type: 3}
     - up: {fileID: 2800000, guid: d87b609ca46c34d21855bf2621f9eac8, type: 3}
       parallel: {fileID: 2800000, guid: 3f7d7a7d7572f4a909ee3a37f247c019, type: 3}
   - name: Green
+    color: {r: 0.120120525, g: 1, b: 0, a: 1}
     texturesByLength:
     - up: {fileID: 2800000, guid: 410718c82d16c4ecf97fa2a9c852b937, type: 3}
       parallel: {fileID: 2800000, guid: 405cb1eaaf2b1448085127e6f6c02864, type: 3}
     - up: {fileID: 2800000, guid: f66d0aa3e224b44dda0ec01f26e57b2f, type: 3}
       parallel: {fileID: 2800000, guid: 5d85822ea5e504bd3a064493b18637ea, type: 3}
   - name: PurplePink
+    color: {r: 0.77254903, g: 0.30588236, b: 0.85882354, a: 1}
     texturesByLength:
     - up: {fileID: 2800000, guid: bfbead2bcbc28420b90c37b47f4cab45, type: 3}
       parallel: {fileID: 2800000, guid: 133505b9af27e4c2eba10648968590c5, type: 3}
     - up: {fileID: 2800000, guid: 3be88b13905904eed945877a0146ec27, type: 3}
       parallel: {fileID: 2800000, guid: 98d080a72175f4f3dbfdef97452c7a12, type: 3}
   - name: Red
+    color: {r: 1, g: 0.035849165, b: 0, a: 1}
     texturesByLength:
     - up: {fileID: 2800000, guid: b869f70bf7cec4709ba676aca50af2c1, type: 3}
       parallel: {fileID: 2800000, guid: d73ec3cab0c204151903e9228abbed23, type: 3}
     - up: {fileID: 2800000, guid: 2580cd074bdcd496282ff95fcdf28431, type: 3}
       parallel: {fileID: 2800000, guid: fccf3040215e5469a9eb3c6acc392597, type: 3}
   - name: Yellow
+    color: {r: 0.8679245, g: 0.7157644, b: 0, a: 1}
     texturesByLength:
     - up: {fileID: 2800000, guid: 671bbf8b19ac74953949a582a0f81d72, type: 3}
       parallel: {fileID: 2800000, guid: 95069767d642141e7ba89d70a1fef525, type: 3}
