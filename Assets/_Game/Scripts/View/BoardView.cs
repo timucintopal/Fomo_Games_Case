@@ -6,13 +6,40 @@ namespace ColorBlocks.View
     public class BoardView : MonoBehaviour
     {
         [SerializeField] private GameObject cellPrefab;
+        [SerializeField] private GameObject[] blockPrefabs;
         private Vector3 _origin;
+        private LevelData _levelData;
 
         public void Build(LevelData level)
         {
-            _origin = new Vector3(-(level.ColCount - 1) / 2f, 0f, (level.RowCount - 1) / 2f);
-            foreach (var cell in level.CellInfo)
+            _levelData = level;
+            _origin = new Vector3(-(_levelData.ColCount - 1) / 2f, 0f, (_levelData.RowCount - 1) / 2f);
+            
+            BuildCells();
+            BuildBlocks();
+        }
+
+        private void BuildCells()
+        {
+            foreach (var cell in _levelData.CellInfo)
                 Instantiate(cellPrefab, GridToWorld(cell.Row, cell.Col), Quaternion.identity, transform);
+        }
+
+        private void BuildBlocks()
+        {
+            foreach (var movable in _levelData.MovableInfo)
+            {
+                bool isVertical = movable.Direction[0] == Direction.Up || movable.Direction[0] == Direction.Down;
+
+                // A block starts at (Row, Col) and extends down if vertical, right if horizontal.
+                int lastRow = isVertical ? movable.Row + movable.Length - 1 : movable.Row;
+                int lastCol = isVertical ? movable.Col : movable.Col + movable.Length - 1;
+
+                Vector3 position = (GridToWorld(movable.Row, movable.Col) + GridToWorld(lastRow, lastCol)) / 2f;
+                Quaternion rotation = isVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
+
+                Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
+            }
         }
 
         private Vector3 GridToWorld(int row, int col)
