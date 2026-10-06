@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace _Game.Data
+namespace ColorBlocks.Data
 {
     [Serializable]
     public class LevelData
