@@ -1,4 +1,5 @@
 using ColorBlocks.Core;
+using DG.Tweening;
 using UnityEngine;
 
 namespace ColorBlocks.View
@@ -10,6 +11,10 @@ namespace ColorBlocks.View
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
 
         [SerializeField] private Renderer blockRenderer;
+        [SerializeField] private float secondsPerCell = 0.1f;
+        
+        public bool IsMoving => DOTween.IsTweening(transform);
+        private Tween _tween;
         
         public void Init(Block block, Texture texture)
         {
@@ -22,6 +27,17 @@ namespace ColorBlocks.View
             var properties = new MaterialPropertyBlock();
             properties.SetTexture(BaseMap, texture);
             blockRenderer.SetPropertyBlock(properties);
+        }
+        
+        public void Slide(Vector3 distance, int cellCount, bool removeAtEnd)
+        {
+            Vector3 target = transform.position + distance;
+            float duration = cellCount * secondsPerCell;
+
+            _tween = transform.DOMove(target, duration).SetEase(Ease.OutQuad);
+
+            if (removeAtEnd)
+                _tween.OnComplete(() => Destroy(gameObject));
         }
 
     }

@@ -41,6 +41,8 @@ namespace ColorBlocks.Game
         
         private void HandleSwipe(BlockView blockView, Direction direction)
         {
+            if(blockView.IsMoving) return;
+            
             Block block = blockView.Block;
 
             if (!block.CanMove(direction))
@@ -54,12 +56,14 @@ namespace ColorBlocks.Game
             if (steps == 0 && !exited)
                 return;
 
+            int viewSteps = steps;
+            if (exited)
+                viewSteps += block.Length;
+
             Vector2Int offset = direction.ToOffset();
             Vector3 step = new Vector3(offset.x, 0f, -offset.y);
-            blockView.transform.position += step * steps;
 
-            if (exited)
-                Destroy(blockView.gameObject);
+            blockView.Slide(step * viewSteps, viewSteps, exited);
         }
     }
 }
