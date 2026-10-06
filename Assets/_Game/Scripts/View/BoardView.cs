@@ -6,6 +6,7 @@ namespace ColorBlocks.View
     public class BoardView : MonoBehaviour
     {
         [SerializeField] private GameObject cellPrefab;
+        [SerializeField] private GameObject exitPrefab;
         [SerializeField] private BlockView[] blockPrefabs; // index = block length - 1
         [SerializeField] private ColorPalette palette;
         private Vector3 _origin;
@@ -18,6 +19,7 @@ namespace ColorBlocks.View
             
             BuildCells();
             BuildBlocks();
+            BuildExits();
         }
 
         private void BuildCells()
@@ -42,6 +44,19 @@ namespace ColorBlocks.View
                 Debug.Log("MOVABLE LENGTH " + movable.Length);
                 var block = Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
                 block.SetTexture(palette.GetBlockTexture(movable.Colors, movable.Length, isVertical));
+            }
+        }
+        
+        private void BuildExits()
+        {
+            foreach (var exit in _levelData.ExitInfo)
+            {
+                // An exit sits just outside its cell, on the side it opens to.
+                var (rowOffset, colOffset) = exit.Direction.ToOffset();
+                Vector3 position = GridToWorld(exit.Row + rowOffset, exit.Col + colOffset);
+                Quaternion rotation = Quaternion.Euler(0f, 90f * (int)exit.Direction, 0f);
+
+                Instantiate(exitPrefab, position, rotation, transform);
             }
         }
 
