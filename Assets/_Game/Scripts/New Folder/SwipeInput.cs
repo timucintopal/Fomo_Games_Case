@@ -51,15 +51,17 @@ namespace ColorBlocks.Input
             if (delta.magnitude < minSwipePixels)
                 return;
 
-            Direction direction;
-
+            Direction direction = ToDirection(delta);
+            _selected = null;
+        }
+        
+        private static Direction ToDirection(Vector2 delta)
+        {
             bool isHorizontal = Mathf.Abs(delta.x) > Mathf.Abs(delta.y);
-            if (isHorizontal)
-                direction = delta.x > 0 ? Direction.Right : Direction.Left;
-            else
-                direction = delta.y > 0 ? Direction.Up : Direction.Down;
 
-            Debug.Log("SWIPE " + direction);
+            if (isHorizontal)
+                return delta.x > 0 ? Direction.Right : Direction.Left;
+            return delta.y > 0 ? Direction.Up : Direction.Down;
         }
     }
 }
