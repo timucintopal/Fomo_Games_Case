@@ -34,12 +34,14 @@ namespace ColorBlocks.Game
             boardView.Build(levelLoader.Load(levelIndex));
         }
         
-        private void HandleSwipe(BlockView block, Direction direction)
+        private void HandleSwipe(BlockView blockView, Direction direction)
         {
+            if(!blockView.Block.CanMove(direction)) return;
+            
             var (rowOffset, colOffset) = direction.ToOffset();
             Vector3 step = new Vector3(colOffset, 0f, -rowOffset);
 
-            block.transform.position += step;
+            blockView.transform.position += step;
         }
     }
 }

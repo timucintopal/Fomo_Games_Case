@@ -1,3 +1,4 @@
+using ColorBlocks.Core;
 using ColorBlocks.Data;
 using UnityEngine;
 
@@ -43,7 +44,9 @@ namespace ColorBlocks.View
 
                 Debug.Log("MOVABLE LENGTH " + movable.Length);
                 var block = Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
-                block.SetTexture(palette.GetBlockTexture(movable.Colors, movable.Length, isVertical));
+                var texture = palette.GetBlockTexture(movable.Colors, movable.Length, isVertical);
+                
+                block.Init(new Block(movable), texture);
             }
         }
         
