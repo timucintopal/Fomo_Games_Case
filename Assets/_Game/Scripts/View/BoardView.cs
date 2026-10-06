@@ -6,7 +6,8 @@ namespace ColorBlocks.View
     public class BoardView : MonoBehaviour
     {
         [SerializeField] private GameObject cellPrefab;
-        [SerializeField] private GameObject[] blockPrefabs;
+        [SerializeField] private BlockView[] blockPrefabs; // index = block length - 1
+        [SerializeField] private ColorPalette palette;
         private Vector3 _origin;
         private LevelData _levelData;
 
@@ -38,7 +39,9 @@ namespace ColorBlocks.View
                 Vector3 position = (GridToWorld(movable.Row, movable.Col) + GridToWorld(lastRow, lastCol)) / 2f;
                 Quaternion rotation = isVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
 
-                Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
+                Debug.Log("MOVABLE LENGTH " + movable.Length);
+                var block = Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
+                block.SetTexture(palette.GetBlockTexture(movable.Colors, movable.Length, isVertical));
             }
         }
 

@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4261394252218343382, guid: 89b6165f16668407db0feed274e55481, type: 3}
+      propertyPath: blockRenderer
+      value: 
+      objectReference: {fileID: 8065398128976467269}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -113,6 +117,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2d11f9e80c264477e9c76373cb654ef3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d2dd3736f88c641aa9897e406979a9c6, type: 2}
     - target: {fileID: 919132149155446097, guid: 2d11f9e80c264477e9c76373cb654ef3, type: 3}
       propertyPath: m_Name
       value: Cube2
@@ -122,6 +130,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d11f9e80c264477e9c76373cb654ef3, type: 3}
+--- !u!23 &8065398128976467269 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 2d11f9e80c264477e9c76373cb654ef3, type: 3}
+  m_PrefabInstance: {fileID: 8660309367974562241}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9197793003138313770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2d11f9e80c264477e9c76373cb654ef3, type: 3}
