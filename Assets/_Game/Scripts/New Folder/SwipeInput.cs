@@ -31,6 +31,7 @@ namespace ColorBlocks.Input
 
         private void Select(Vector2 screenPosition)
         {
+            _selected = null;
             _startPosition = screenPosition;
 
             var ray = cam.ScreenPointToRay(screenPosition);

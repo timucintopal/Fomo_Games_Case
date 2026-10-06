@@ -36,7 +36,7 @@ namespace ColorBlocks.Game
             var level = levelLoader.Load(levelIndex);
 
             _board = new Board(level);
-            boardView.Build(level);
+            boardView.Build(level, _board);
         }
         
         private void HandleSwipe(BlockView blockView, Direction direction)

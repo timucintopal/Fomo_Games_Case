@@ -2,20 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using ColorBlocks.Data;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
 
 namespace ColorBlocks.Core
 {
     public class Block
     {
         public Vector2Int Position { get; private set; } // x = column, y = row
+
         public int Length { get; }
         public bool IsVertical { get; }
+        public int Color { get; }
+        
         private IReadOnlyList<Direction> _directions;
         
-
         public Block(MovableData data)
         {
+            Color = data.Colors;
             _directions = data.Direction;
             Position = new Vector2Int(data.Col, data.Row);
             Length = data.Length;
@@ -38,6 +40,17 @@ namespace ColorBlocks.Core
         public bool CanMove(Direction direction)
         {
             return _directions.Contains(direction);
+        }
+        
+        public bool Occupies(Vector2Int cell)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (GetCell(i) == cell)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
