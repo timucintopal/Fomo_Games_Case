@@ -542,8 +542,12 @@ PrefabInstance:
       objectReference: {fileID: 1042655937}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: levelIndex
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
+      propertyPath: swipeInput
+      value: 
+      objectReference: {fileID: 294449228}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: 'levelFiles.Array.data[0]'
       value: 

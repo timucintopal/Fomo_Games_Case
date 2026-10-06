@@ -15,6 +15,7 @@ namespace ColorBlocks.Input
         [SerializeField] private BlockView _selected;
         [SerializeField] private Vector2 _startPosition;
         
+        public event Action<BlockView, Direction> OnSwipe;
 
         private void Update()
         {
@@ -52,6 +53,7 @@ namespace ColorBlocks.Input
                 return;
 
             Direction direction = ToDirection(delta);
+            OnSwipe?.Invoke(_selected, direction);
             _selected = null;
         }
         
