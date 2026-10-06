@@ -1,3 +1,4 @@
+using ColorBlocks.Core;
 using ColorBlocks.Data;
 using UnityEngine;
 
@@ -11,10 +12,12 @@ namespace ColorBlocks.View
         [SerializeField] private ColorPalette palette;
         private Vector3 _origin;
         private LevelData _levelData;
+        private Board _board;
 
-        public void Build(LevelData level)
+        public void Build(LevelData level, Board board)
         {
             _levelData = level;
+            _board = board;
             _origin = new Vector3(-(_levelData.ColCount - 1) / 2f, 0f, (_levelData.RowCount - 1) / 2f);
             
             BuildCells();
@@ -25,25 +28,26 @@ namespace ColorBlocks.View
         private void BuildCells()
         {
             foreach (var cell in _levelData.CellInfo)
-                Instantiate(cellPrefab, GridToWorld(cell.Row, cell.Col), Quaternion.identity, transform);
+            {
+                Vector3 position = GridToWorld(new Vector2Int(cell.Col, cell.Row));
+                Instantiate(cellPrefab, position, Quaternion.identity, transform);
+            }
         }
 
         private void BuildBlocks()
         {
-            foreach (var movable in _levelData.MovableInfo)
+            foreach (var block in _board.Blocks)
             {
-                bool isVertical = movable.Direction[0] == Direction.Up || movable.Direction[0] == Direction.Down;
+                Vector3 firstCell = GridToWorld(block.GetCell(0));
+                Vector3 lastCell = GridToWorld(block.GetCell(block.Length - 1));
+                
+                Vector3 position = (firstCell + lastCell) / 2f;
+                Quaternion rotation = block.IsVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
 
-                // A block starts at (Row, Col) and extends down if vertical, right if horizontal.
-                int lastRow = isVertical ? movable.Row + movable.Length - 1 : movable.Row;
-                int lastCol = isVertical ? movable.Col : movable.Col + movable.Length - 1;
+                var blockView = Instantiate(blockPrefabs[block.Length - 1], position, rotation, transform);
+                var texture = palette.GetBlockTexture(block.Color, block.Length, block.IsVertical);
 
-                Vector3 position = (GridToWorld(movable.Row, movable.Col) + GridToWorld(lastRow, lastCol)) / 2f;
-                Quaternion rotation = isVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-
-                Debug.Log("MOVABLE LENGTH " + movable.Length);
-                var block = Instantiate(blockPrefabs[movable.Length - 1], position, rotation, transform);
-                block.SetTexture(palette.GetBlockTexture(movable.Colors, movable.Length, isVertical));
+                blockView.Init(block, texture);
             }
         }
         
@@ -52,8 +56,9 @@ namespace ColorBlocks.View
             foreach (var exit in _levelData.ExitInfo)
             {
                 // An exit sits just outside its cell, on the side it opens to.
-                var (rowOffset, colOffset) = exit.Direction.ToOffset();
-                Vector3 position = GridToWorld(exit.Row + rowOffset, exit.Col + colOffset);
+                Vector2Int exitCell = new Vector2Int(exit.Col, exit.Row);
+                Vector2Int outsideCell = exitCell + exit.Direction.ToOffset();
+                Vector3 position = GridToWorld(outsideCell);
                 Quaternion rotation = Quaternion.Euler(0f, 90f * (int)exit.Direction, 0f);
 
                 var exitView = Instantiate(exitPrefab, position, rotation, transform);
@@ -61,9 +66,9 @@ namespace ColorBlocks.View
             }
         }
 
-        private Vector3 GridToWorld(int row, int col)
+        private Vector3 GridToWorld(Vector2Int cell)
         {
-            return _origin + new Vector3(col, 0f, -row);
+            return _origin + new Vector3(cell.x, 0f, -cell.y);
         }
     }
 }
