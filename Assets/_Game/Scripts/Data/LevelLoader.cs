@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game.Data
+namespace ColorBlocks.Data
 {
     public class LevelLoader
     {
