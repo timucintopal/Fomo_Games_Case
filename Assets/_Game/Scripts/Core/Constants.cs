@@ -2,7 +2,9 @@ namespace ColorBlocks.Core
 {
     public static class Constants
     {
-        public static string LevelLabel = "Level";
-        public static string MovesLabel = "Moves: ";
+        public const string LevelLabel = "Level ";
+        public const string MovesLabel = "Moves: ";
+        public const string SuccessLabel = "Success";
+        public const string FailLabel = "Fail";
     }
 }

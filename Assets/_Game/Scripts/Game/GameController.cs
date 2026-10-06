@@ -1,6 +1,7 @@
 using ColorBlocks.Core;
 using ColorBlocks.Data;
 using ColorBlocks.View;
+using DG.Tweening;
 using UnityEngine;
 
 namespace ColorBlocks.Game
@@ -20,6 +21,10 @@ namespace ColorBlocks.Game
 
         private bool HasMoveLimit => _level.MoveLimit > 0;
         
+        private const float LevelEndDelay = 1f;
+
+        private bool _isLevelOver;
+        
 
         public GameController(LevelLoader levelLoader, BoardView boardView, HudView hudView)
         {
@@ -30,6 +35,8 @@ namespace ColorBlocks.Game
 
         public void StartLevel(int levelIndex)
         {
+            _hudView.HideResult();
+            _isLevelOver = false;
             _levelIndex = levelIndex;
             _level = _levelLoader.Load(levelIndex);
             _movesLeft = _level.MoveLimit;
@@ -51,7 +58,11 @@ namespace ColorBlocks.Game
         }
 
         public void HandleSwipe(BlockView blockView, Direction direction)
-        {            if(blockView.IsMoving) return;
+        {   
+            if (_isLevelOver)
+                return;
+            
+            if(blockView.IsMoving) return;
             
             Block block = blockView.Block;
 
@@ -79,6 +90,44 @@ namespace ColorBlocks.Game
                 _movesLeft--;
             
             UpdateHud();
+            CheckLevelEnd();
+        }
+        
+        private void CheckLevelEnd()
+        {
+            if (_board.IsCleared)
+            {
+                Win();
+                return;
+            }
+
+            bool isOutOfMoves = HasMoveLimit && _movesLeft == 0;
+
+            if (isOutOfMoves)
+                Fail();
+        }
+
+        private void Win()
+        {
+            _hudView.ShowSuccess();
+            int nextLevelIndex = _levelIndex + 1;
+
+            if (nextLevelIndex >= _levelLoader.LevelCount)
+                nextLevelIndex = 0;
+
+            LoadLevelAfterDelay(nextLevelIndex);
+        }
+
+        private void Fail()
+        {
+            _hudView.ShowFail();
+            LoadLevelAfterDelay(_levelIndex);
+        }
+
+        private void LoadLevelAfterDelay(int levelIndex)
+        {
+            _isLevelOver = true;
+            DOVirtual.DelayedCall(LevelEndDelay, () => StartLevel(levelIndex));
         }
     }
 }

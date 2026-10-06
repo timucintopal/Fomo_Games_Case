@@ -16,6 +16,7 @@ namespace ColorBlocks.View
 
         public void Build(LevelData level, Board board)
         {
+            Clear();
             _levelData = level;
             _board = board;
             _origin = new Vector3(-(_levelData.ColCount - 1) / 2f, 0f, (_levelData.RowCount - 1) / 2f);
@@ -23,6 +24,12 @@ namespace ColorBlocks.View
             BuildCells();
             BuildBlocks();
             BuildExits();
+        }
+        
+        private void Clear()
+        {
+            foreach (Transform child in transform)
+                Destroy(child.gameObject);
         }
 
         private void BuildCells()

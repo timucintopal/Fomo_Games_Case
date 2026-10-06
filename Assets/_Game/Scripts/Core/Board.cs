@@ -7,11 +7,12 @@ namespace ColorBlocks.Core
     public class Board
     {
         private readonly HashSet<Vector2Int> _cells = new HashSet<Vector2Int>();
+        public IReadOnlyList<Block> Blocks => _blocks;
         
         private readonly List<Block> _blocks = new List<Block>();
-
-        public IReadOnlyList<Block> Blocks => _blocks;
         private readonly List<ExitData> _exits;
+        
+        public bool IsCleared => _blocks.Count == 0;
 
         public Board(LevelData level)
         {
