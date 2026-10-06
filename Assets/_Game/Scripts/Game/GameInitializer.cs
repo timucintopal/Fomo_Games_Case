@@ -1,4 +1,5 @@
 using System;
+using ColorBlocks.Core;
 using ColorBlocks.Data;
 using ColorBlocks.Input;
 using ColorBlocks.View;
@@ -12,6 +13,7 @@ namespace ColorBlocks.Game
         [SerializeField] private int levelIndex = 0;
         [SerializeField] private BoardView boardView;
         [SerializeField] private SwipeInput swipeInput;
+        private Board _board;
 
         private void OnEnable()
         {
@@ -31,17 +33,25 @@ namespace ColorBlocks.Game
         private void LoadLevel()
         {
             var levelLoader = new LevelLoader(levelFiles);
-            boardView.Build(levelLoader.Load(levelIndex));
+            var level = levelLoader.Load(levelIndex);
+
+            _board = new Board(level);
+            boardView.Build(level);
         }
         
         private void HandleSwipe(BlockView blockView, Direction direction)
         {
-            if(!blockView.Block.CanMove(direction)) return;
-            
-            var (rowOffset, colOffset) = direction.ToOffset();
-            Vector3 step = new Vector3(colOffset, 0f, -rowOffset);
+            Block block = blockView.Block;
+            if(!block.CanMove(direction)) return;
 
-            blockView.transform.position += step;
+            int steps = _board.CountFreeSteps(block, direction);
+            
+            block.Move(direction, steps);
+            
+            Vector2Int offset = direction.ToOffset();
+            Vector3 step = new Vector3(offset.x, 0f, -offset.y);
+
+            blockView.transform.position += step * steps;
         }
     }
 }

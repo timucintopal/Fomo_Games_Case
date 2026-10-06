@@ -55,8 +55,8 @@ namespace ColorBlocks.View
             foreach (var exit in _levelData.ExitInfo)
             {
                 // An exit sits just outside its cell, on the side it opens to.
-                var (rowOffset, colOffset) = exit.Direction.ToOffset();
-                Vector3 position = GridToWorld(exit.Row + rowOffset, exit.Col + colOffset);
+                Vector2Int offset = exit.Direction.ToOffset();
+                Vector3 position = GridToWorld(exit.Row + offset.y, exit.Col + offset.x);
                 Quaternion rotation = Quaternion.Euler(0f, 90f * (int)exit.Direction, 0f);
 
                 var exitView = Instantiate(exitPrefab, position, rotation, transform);

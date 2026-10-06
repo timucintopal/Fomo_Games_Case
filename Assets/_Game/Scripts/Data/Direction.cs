@@ -1,3 +1,6 @@
+using System.Numerics;
+using UnityEngine;
+
 namespace ColorBlocks.Data
 {
     public enum Direction
@@ -10,14 +13,14 @@ namespace ColorBlocks.Data
 
     public static class DirectionExtensions
     {
-        public static (int row, int col) ToOffset(this Direction direction)
+        public static Vector2Int ToOffset(this Direction direction)
         {
             switch (direction)
             {
-                case Direction.Up: return (-1, 0);
-                case Direction.Right: return (0, 1);
-                case Direction.Down: return (1, 0);
-                default: return (0, -1);
+                case Direction.Up: return new Vector2Int(0, -1);
+                case Direction.Right: return new Vector2Int(1, 0);
+                case Direction.Down: return new Vector2Int(0, 1);
+                default: return new Vector2Int(-1, 0);
             }
         }
     }
