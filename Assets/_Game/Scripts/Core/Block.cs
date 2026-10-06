@@ -31,6 +31,16 @@ namespace ColorBlocks.Core
 
             return Position + new Vector2Int(index, 0);
         }
+        
+        public Vector2Int GetFrontCell(Direction direction)
+        {
+            bool movesTowardsLastCell = direction == Direction.Down || direction == Direction.Right;
+
+            if (movesTowardsLastCell)
+                return GetCell(Length - 1);
+
+            return GetCell(0);
+        }
 
         public void Move(Direction direction, int steps)
         {

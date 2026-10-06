@@ -11,9 +11,14 @@ namespace ColorBlocks.Core
         private readonly List<Block> _blocks = new List<Block>();
 
         public IReadOnlyList<Block> Blocks => _blocks;
+        private readonly List<ExitData> _exits;
 
         public Board(LevelData level)
         {
+            _exits = level.ExitInfo;
+            _cells.Clear();
+            _blocks.Clear();
+            
             foreach (var cell in level.CellInfo)
                 _cells.Add(new Vector2Int(cell.Col, cell.Row));
             
@@ -56,6 +61,26 @@ namespace ColorBlocks.Core
                 if (other.Occupies(cell))
                     return true;
             }
+            return false;
+        }
+        
+        public bool TryExit(Block block, Direction direction)
+        {
+            Vector2Int frontCell = block.GetFrontCell(direction);
+
+            foreach (var exit in _exits)
+            {
+                bool sameCell = exit.Col == frontCell.x && exit.Row == frontCell.y;
+                bool sameDirection = exit.Direction == direction;
+                bool sameColor = exit.Colors == block.Color;
+
+                if (sameCell && sameDirection && sameColor)
+                {
+                    _blocks.Remove(block);
+                    return true;
+                }
+            }
+
             return false;
         }
     }

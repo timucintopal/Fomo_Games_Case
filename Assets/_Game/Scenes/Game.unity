@@ -542,7 +542,7 @@ PrefabInstance:
       objectReference: {fileID: 1042655937}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: levelIndex
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: swipeInput
