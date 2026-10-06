@@ -24,6 +24,8 @@ namespace ColorBlocks.Input
 
             if (pointer.press.wasPressedThisFrame)
                 Select(pointer.position.ReadValue());
+            else if (pointer.press.isPressed && _selected != null)
+                TrySwipe(pointer.position.ReadValue());
         }
 
         private void Select(Vector2 screenPosition)
@@ -41,6 +43,23 @@ namespace ColorBlocks.Input
             {
                 Debug.Log("SELECT FAIL");
             }
+        }
+        
+        private void TrySwipe(Vector2 screenPosition)
+        {
+            Vector2 delta = screenPosition - _startPosition;
+            if (delta.magnitude < minSwipePixels)
+                return;
+
+            Direction direction;
+
+            bool isHorizontal = Mathf.Abs(delta.x) > Mathf.Abs(delta.y);
+            if (isHorizontal)
+                direction = delta.x > 0 ? Direction.Right : Direction.Left;
+            else
+                direction = delta.y > 0 ? Direction.Up : Direction.Down;
+
+            Debug.Log("SWIPE " + direction);
         }
     }
 }
