@@ -1,5 +1,3 @@
-using System;
-using ColorBlocks.Core;
 using ColorBlocks.Data;
 using ColorBlocks.Input;
 using ColorBlocks.View;
@@ -13,57 +11,27 @@ namespace ColorBlocks.Game
         [SerializeField] private int levelIndex = 0;
         [SerializeField] private BoardView boardView;
         [SerializeField] private SwipeInput swipeInput;
-        private Board _board;
+        [SerializeField] private HudView hudView;
 
-        private void OnEnable()
-        {
-            swipeInput.OnSwipe += HandleSwipe;
-        }
-        
-        private void OnDisable()
-        {
-            swipeInput.OnSwipe -= HandleSwipe;
-        }
+        private GameController _gameController;
 
         private void Awake()
         {
-            LoadLevel();
-        }
-
-        private void LoadLevel()
-        {
             var levelLoader = new LevelLoader(levelFiles);
-            var level = levelLoader.Load(levelIndex);
 
-            _board = new Board(level);
-            boardView.Build(level, _board);
-        }
-        
-        private void HandleSwipe(BlockView blockView, Direction direction)
-        {
-            if(blockView.IsMoving) return;
+            _gameController = new GameController(levelLoader, boardView, hudView);
+            _gameController.StartLevel(levelIndex);
             
-            Block block = blockView.Block;
+        }
 
-            if (!block.CanMove(direction))
-                return;
+        private void OnEnable()
+        {
+            swipeInput.OnSwipe += _gameController.HandleSwipe;
+        }
 
-            int steps = _board.CountFreeSteps(block, direction);
-            block.Move(direction, steps);
-
-            bool exited = _board.TryExit(block, direction);
-
-            if (steps == 0 && !exited)
-                return;
-
-            int viewSteps = steps;
-            if (exited)
-                viewSteps += block.Length;
-
-            Vector2Int offset = direction.ToOffset();
-            Vector3 step = new Vector3(offset.x, 0f, -offset.y);
-
-            blockView.Slide(step * viewSteps, viewSteps, exited);
+        private void OnDisable()
+        {
+            swipeInput.OnSwipe -= _gameController.HandleSwipe;
         }
     }
 }
