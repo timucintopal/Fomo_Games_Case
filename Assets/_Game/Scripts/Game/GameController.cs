@@ -8,7 +8,7 @@ namespace ColorBlocks.Game
 {
     public class GameController
     {
-        private const float LevelEndDelay = 1f;
+        private const float LevelEndDelay = 1.5f;
         
         private readonly LevelLoader _levelLoader;
         private readonly BoardView _boardView;
@@ -86,11 +86,10 @@ namespace ColorBlocks.Game
                 return;
             }
 
-            int viewSteps = steps;
             if (exited)
-                viewSteps += block.Length;
-
-            blockView.Slide(step * viewSteps, viewSteps, exited);
+                blockView.SlideOut(step, steps);
+            else
+                blockView.Slide(step * steps, steps);
 
             if (HasMoveLimit)
                 _movesLeft--;
