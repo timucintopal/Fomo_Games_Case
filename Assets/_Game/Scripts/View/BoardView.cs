@@ -10,9 +10,12 @@ namespace ColorBlocks.View
         [SerializeField] private ExitView exitPrefab;
         [SerializeField] private BlockView[] blockPrefabs; // index = block length - 1
         [SerializeField] private ColorPalette palette;
+
         private Vector3 _origin;
         private LevelData _levelData;
         private Board _board;
+
+        private static readonly int BoardBounds = Shader.PropertyToID("_BoardBounds");
 
         public void Build(LevelData level, Board board)
         {
@@ -20,10 +23,23 @@ namespace ColorBlocks.View
             _levelData = level;
             _board = board;
             _origin = new Vector3(-(_levelData.ColCount - 1) / 2f, 0f, (_levelData.RowCount - 1) / 2f);
+            SetClipBounds();
             
             BuildCells();
             BuildBlocks();
             BuildExits();
+        }
+        
+        // Blocks are not drawn outside these bounds: (minX, minZ, maxX, maxZ).
+        private void SetClipBounds()
+        {
+            // An exit sits half a cell outside the board edge; its clip point is shifted from there.
+            float clipMargin = 0.5f + exitPrefab.ClipOffset;
+
+            float halfWidth = _levelData.ColCount / 2f + clipMargin;
+            float halfDepth = _levelData.RowCount / 2f + clipMargin;
+
+            Shader.SetGlobalVector(BoardBounds, new Vector4(-halfWidth, -halfDepth, halfWidth, halfDepth));
         }
         
         private void Clear()

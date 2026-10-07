@@ -7,6 +7,9 @@ namespace ColorBlocks.View
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
         [SerializeField] private Renderer[] renderers;
+        [SerializeField] private Transform clipPoint;
+
+        public float ClipOffset => clipPoint.localPosition.z;
 
         public void SetColor(Color color)
         {
