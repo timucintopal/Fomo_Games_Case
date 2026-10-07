@@ -57,35 +57,44 @@ namespace ColorBlocks.Game
         }
 
         public void HandleSwipe(BlockView blockView, Direction direction)
-        {   
+        {
             if (_isLevelOver)
                 return;
-            
-            if(blockView.IsMoving) return;
-            
+
+            if (blockView.IsMoving)
+                return;
+
             Block block = blockView.Block;
 
-            if (!block.CanMove(direction)) return;
+            Vector2Int offset = direction.ToOffset();
+            Vector3 step = new Vector3(offset.x, 0f, -offset.y);
+
+            if (!block.CanMove(direction))
+            {
+                blockView.Bump(step);
+                return;
+            }
 
             int steps = _board.CountFreeSteps(block, direction);
             block.Move(direction, steps);
 
             bool exited = _board.TryExit(block, direction);
 
-            if (steps == 0 && !exited) return;
+            if (steps == 0 && !exited)
+            {
+                blockView.Bump(step);
+                return;
+            }
 
             int viewSteps = steps;
             if (exited)
                 viewSteps += block.Length;
 
-            Vector2Int offset = direction.ToOffset();
-            Vector3 step = new Vector3(offset.x, 0f, -offset.y);
-            
             blockView.Slide(step * viewSteps, viewSteps, exited);
 
             if (HasMoveLimit)
                 _movesLeft--;
-            
+
             UpdateHud();
             CheckLevelEnd();
         }

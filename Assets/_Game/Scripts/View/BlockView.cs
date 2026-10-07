@@ -6,15 +6,17 @@ namespace ColorBlocks.View
 {
     public class BlockView : MonoBehaviour
     {
-        public Block Block { get; private set; }
-        
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
 
         [SerializeField] private Renderer blockRenderer;
         [SerializeField] private float secondsPerCell = 0.1f;
+        [SerializeField] private float bumpDistance = 0.1f;
+        [SerializeField] private float bumpDuration = 0.2f;
+        private Tween _tween;
         
         public bool IsMoving => DOTween.IsTweening(transform);
-        private Tween _tween;
+        
+        public Block Block { get; private set; }
         
         public void Init(Block block, Texture texture)
         {
@@ -34,10 +36,16 @@ namespace ColorBlocks.View
             Vector3 target = transform.position + distance;
             float duration = cellCount * secondsPerCell;
 
-            _tween = transform.DOMove(target, duration).SetEase(Ease.OutQuad);
+            Ease ease = removeAtEnd ? Ease.OutQuad : Ease.OutBack;
+            _tween = transform.DOMove(target, duration).SetEase(ease);
 
             if (removeAtEnd)
                 _tween.OnComplete(() => Destroy(gameObject));
+        }
+        
+        public void Bump(Vector3 direction)
+        {
+            transform.DOPunchPosition(direction * bumpDistance, bumpDuration);
         }
 
     }
