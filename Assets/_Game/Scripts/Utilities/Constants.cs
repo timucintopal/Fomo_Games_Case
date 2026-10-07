@@ -6,5 +6,6 @@ namespace ColorBlocks.Core
         public const string MovesLabel = "Moves: ";
         public const string SuccessLabel = "Success";
         public const string FailLabel = "Fail";
+        public const string LevelIndexKey = "LevelIndex";
     }
 }

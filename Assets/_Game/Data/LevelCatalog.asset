@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b32146a112445ab8c7a59c44534a39, type: 3}
+  m_Name: LevelCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.Data.LevelCatalog
+  levelFiles:
+  - {fileID: 4900000, guid: f02b59156d8a74522b39d877d93b4601, type: 3}
+  - {fileID: 4900000, guid: 6fe230ddb5ba94dc1a898508ab1c7938, type: 3}
+  - {fileID: 4900000, guid: 8faf2ee4ffa7441578cec0bf436d4c07, type: 3}
+  - {fileID: 4900000, guid: d1b289677fd50480184df3b971b74fc2, type: 3}

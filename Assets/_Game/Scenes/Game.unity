@@ -532,53 +532,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: hudView
-      value: 
-      objectReference: {fileID: 3717303808368537709, guid: 063a482c3083245ef9ad74c3eadf33c4, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: boardCam
       value: 
       objectReference: {fileID: 425893779}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: boardView
-      value: 
-      objectReference: {fileID: 3204907711617722654, guid: 00fdf17831b4c49dd845f6778f157d1f, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: levelIndex
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 425893776}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: swipeInput
-      value: 
-      objectReference: {fileID: 6521625988773387267, guid: 3b69302bd3d254016966d8c5bae4819d, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: boardCamera
-      value: 
-      objectReference: {fileID: 425893779}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: boardCamPrefab
-      value: 
-      objectReference: {fileID: 425893779}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: 'levelFiles.Array.data[0]'
-      value: 
-      objectReference: {fileID: 4900000, guid: f02b59156d8a74522b39d877d93b4601, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: 'levelFiles.Array.data[1]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 6fe230ddb5ba94dc1a898508ab1c7938, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: 'levelFiles.Array.data[2]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 8faf2ee4ffa7441578cec0bf436d4c07, type: 3}
-    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
-      propertyPath: 'levelFiles.Array.data[3]'
-      value: 
-      objectReference: {fileID: 4900000, guid: d1b289677fd50480184df3b971b74fc2, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -7,12 +7,11 @@ namespace ColorBlocks.Game
 {
     public class GameInitializer : MonoBehaviour
     {
-        [SerializeField] private TextAsset[] levelFiles;
-        [SerializeField] private int levelIndex = 0;
         [SerializeField] private BoardView boardPrefab;
         [SerializeField] private SwipeInput swipePrefab;
         [SerializeField] private HudView hudPrefab;
         [SerializeField] private BoardCamera boardCam;
+        [SerializeField] private LevelCatalog levelCatalog;
         
         private BoardView _boardView;
         private SwipeInput _swipeInput;
@@ -22,12 +21,10 @@ namespace ColorBlocks.Game
 
         private void Awake()
         {
-            var levelLoader = new LevelLoader(levelFiles);
-            
             Init();
 
-            _gameController = new GameController(levelLoader, _boardView, _hudView, boardCam);
-            _gameController.StartLevel(levelIndex);
+            _gameController = new GameController(levelCatalog, _boardView, _hudView, boardCam, new PlayerData());
+            _gameController.Start();
         }
 
         private void Init()

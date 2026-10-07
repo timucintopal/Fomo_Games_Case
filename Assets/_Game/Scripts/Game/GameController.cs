@@ -10,10 +10,11 @@ namespace ColorBlocks.Game
     {
         private const float LevelEndDelay = 1.5f;
         
-        private readonly LevelLoader _levelLoader;
         private readonly BoardView _boardView;
         private readonly BoardCamera _boardCamera;
         private readonly HudView _hudView;
+        private readonly PlayerData _playerData;
+        private readonly LevelCatalog _levelCatalog;
 
         private Board _board;
         private LevelData _level;
@@ -23,20 +24,26 @@ namespace ColorBlocks.Game
 
         private bool HasMoveLimit => _level.MoveLimit > 0;
 
-        public GameController(LevelLoader levelLoader, BoardView boardView, HudView hudView, BoardCamera boardCamera)
+        public GameController(LevelCatalog levelCatalog, BoardView boardView, HudView hudView, BoardCamera boardCamera, PlayerData playerData)
         {
             _hudView = hudView;
-            _levelLoader = levelLoader;
+            _levelCatalog = levelCatalog;
             _boardView = boardView;
             _boardCamera = boardCamera;
+            _playerData = playerData;
+        }
+        
+        public void Start()
+        {
+            StartLevel(_playerData.LevelIndex);
         }
 
-        public void StartLevel(int levelIndex)
+        private void StartLevel(int levelIndex)
         {
             _hudView.HideResult();
             _isLevelOver = false;
             _levelIndex = levelIndex;
-            _level = _levelLoader.Load(levelIndex);
+            _level = _levelCatalog.Load(levelIndex);
             _movesLeft = _level.MoveLimit;
             _board = new Board(_level);
             
@@ -117,8 +124,7 @@ namespace ColorBlocks.Game
             _hudView.ShowSuccess();
             int nextLevelIndex = _levelIndex + 1;
 
-            if (nextLevelIndex >= _levelLoader.LevelCount)
-                nextLevelIndex = 0;
+            _playerData.LevelIndex = nextLevelIndex;
 
             LoadLevelAfterDelay(nextLevelIndex);
         }
