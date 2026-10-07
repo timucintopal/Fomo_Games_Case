@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.Input.SwipeInput
   cam: {fileID: 425893776}
-  minSwipePixels: 30
+  minSwipePixels: 100
   blockLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -318,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42923d94019c4949a87c3ea0018f462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.BoardCamera
+  minDistance: 9
   distancePerCell: 1.6
   extraDistance: 3
 --- !u!1 &473352829

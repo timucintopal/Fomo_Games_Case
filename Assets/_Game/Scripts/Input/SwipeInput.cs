@@ -9,7 +9,7 @@ namespace ColorBlocks.Input
     public class SwipeInput : MonoBehaviour
     {
         [SerializeField] private Camera cam;
-        [SerializeField] private float minSwipePixels = 30f;
+        [SerializeField] private float minSwipePixels = 70f;
         [SerializeField] private LayerMask blockLayer;
 
         private BlockView _selected;
