@@ -547,6 +547,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 425893776}
+    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: swipeInput
       value: 
       objectReference: {fileID: 6521625988773387267, guid: 3b69302bd3d254016966d8c5bae4819d, type: 3}

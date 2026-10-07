@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using ColorBlocks.Core;
 using ColorBlocks.Data;
 using UnityEngine;
@@ -14,8 +16,21 @@ namespace ColorBlocks.View
         private Vector3 _origin;
         private LevelData _levelData;
         private Board _board;
+        private Pooler<Transform> _cellPool;
+        private Pooler<ExitView> _exitPool;
 
         private static readonly int BoardBounds = Shader.PropertyToID("_BoardBounds");
+        
+        private readonly List<Transform> _cells = new List<Transform>();
+        private readonly List<ExitView> _exits = new List<ExitView>();
+        private readonly List<BlockView> _blockViews = new List<BlockView>(); // not pooled, destroyed on clear
+        
+
+        private void Awake()
+        {
+            _cellPool = new Pooler<Transform>(cellPrefab.transform, transform);
+            _exitPool = new Pooler<ExitView>(exitPrefab, transform);
+        }
 
         public void Build(LevelData level, Board board)
         {
@@ -44,16 +59,29 @@ namespace ColorBlocks.View
         
         private void Clear()
         {
-            foreach (Transform child in transform)
-                Destroy(child.gameObject);
-        }
+            foreach (var cellView in _cells)
+                _cellPool.Release(cellView);
+            _cells.Clear();
 
+            foreach (var exitView in _exits)
+                _exitPool.Release(exitView);
+            _exits.Clear();
+
+            foreach (var blockView in _blockViews)
+            {
+                if (blockView != null)
+                    Destroy(blockView.gameObject);
+            }
+            _blockViews.Clear();
+        }
+        
         private void BuildCells()
         {
             foreach (var cell in _levelData.CellInfo)
             {
-                Vector3 position = GridToWorld(new Vector2Int(cell.Col, cell.Row));
-                Instantiate(cellPrefab, position, Quaternion.identity, transform);
+                Transform cellView = _cellPool.Get();
+                cellView.position = GridToWorld(new Vector2Int(cell.Col, cell.Row));
+                _cells.Add(cellView);
             }
         }
 
@@ -72,6 +100,7 @@ namespace ColorBlocks.View
                 var color = palette.GetColor(block.Color);
                 
                 blockView.Init(block, texture, color);
+                _blockViews.Add(blockView);
             }
         }
         
@@ -85,8 +114,11 @@ namespace ColorBlocks.View
                 Vector3 position = GridToWorld(outsideCell);
                 Quaternion rotation = Quaternion.Euler(0f, 90f * (int)exit.Direction, 0f);
 
-                var exitView = Instantiate(exitPrefab, position, rotation, transform);
+                ExitView exitView = _exitPool.Get();
+                exitView.transform.SetPositionAndRotation(position, rotation);
                 exitView.SetColor(palette.GetColor(exit.Colors));
+
+                _exits.Add(exitView);
             }
         }
 
