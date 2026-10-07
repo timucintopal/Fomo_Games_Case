@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ColorBlocks.Core;
 using ColorBlocks.Data;
@@ -16,20 +15,26 @@ namespace ColorBlocks.View
         private Vector3 _origin;
         private LevelData _levelData;
         private Board _board;
+        
         private Pooler<Transform> _cellPool;
         private Pooler<ExitView> _exitPool;
+        private Pooler<BlockView>[] _blockPools; 
 
         private static readonly int BoardBounds = Shader.PropertyToID("_BoardBounds");
         
         private readonly List<Transform> _cells = new List<Transform>();
         private readonly List<ExitView> _exits = new List<ExitView>();
-        private readonly List<BlockView> _blockViews = new List<BlockView>(); // not pooled, destroyed on clear
-        
+        private readonly List<BlockView> _blockViews = new List<BlockView>(); 
 
         private void Awake()
         {
             _cellPool = new Pooler<Transform>(cellPrefab.transform, transform);
             _exitPool = new Pooler<ExitView>(exitPrefab, transform);
+            
+            _blockPools = new Pooler<BlockView>[blockPrefabs.Length];
+
+            for (int i = 0; i < blockPrefabs.Length; i++)
+                _blockPools[i] = new Pooler<BlockView>(blockPrefabs[i], transform);
         }
 
         public void Build(LevelData level, Board board)
@@ -68,10 +73,7 @@ namespace ColorBlocks.View
             _exits.Clear();
 
             foreach (var blockView in _blockViews)
-            {
-                if (blockView != null)
-                    Destroy(blockView.gameObject);
-            }
+                _blockPools[blockView.Block.Length - 1].Release(blockView);
             _blockViews.Clear();
         }
         
@@ -94,8 +96,10 @@ namespace ColorBlocks.View
                 
                 Vector3 position = (firstCell + lastCell) / 2f;
                 Quaternion rotation = block.IsVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-
-                var blockView = Instantiate(blockPrefabs[block.Length - 1], position, rotation, transform);
+                BlockView blockView = _blockPools[block.Length - 1].Get();
+                
+                blockView.transform.SetPositionAndRotation(position, rotation);
+                
                 var texture = palette.GetBlockTexture(block.Color, block.Length, block.IsVertical);
                 var color = palette.GetColor(block.Color);
                 

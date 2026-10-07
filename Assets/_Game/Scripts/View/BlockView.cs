@@ -14,21 +14,28 @@ namespace ColorBlocks.View
         [SerializeField] private float bumpDistance = 0.1f;
         [SerializeField] private float bumpDuration = 0.2f;
         [SerializeField] private float exitSecondsPerCell = 0.3f;
-        [SerializeField] private float exitShakeStrength = 0.1f;
         [SerializeField] private float exitShakeAngle = 3f;
         [SerializeField] private int exitShakeVibrato = 30;
         
+        private Quaternion _modelRotation;
         private Color _color;
-        private Tween _tween;
         
         public bool IsMoving { get; private set; }
         
         public Block Block { get; private set; }
         
+        private void Awake()
+        {
+            _modelRotation = blockRenderer.transform.localRotation;
+        }
+        
         public void Init(Block block, Texture texture, Color color)
         {
+            IsMoving = false;
             Block = block;
             _color = color;
+            blockRenderer.transform.localRotation = _modelRotation;
+
             SetTexture(texture);
         }
 
@@ -51,7 +58,7 @@ namespace ColorBlocks.View
                 .OnComplete(() => IsMoving = false);
         }
         
-        // Slides to the gate, then grinds through it slowly and is removed.
+        // Slides to the gate, then grinds through it.
         public void SlideOut(Vector3 step, int cellsToGate)
         {
             IsMoving = true;
@@ -64,18 +71,19 @@ namespace ColorBlocks.View
                 .OnComplete(() => GrindThroughGate(step));
         }
 
-        // Moves slowly through the gate while shaking, then removes the block.
+        // Moves slowly through the gate while shaking, then hides the block.
         private void GrindThroughGate(Vector3 step)
         {
             Vector3 outsidePosition = transform.position + step * Block.Length;
             float duration = Block.Length * exitSecondsPerCell;
 
             PlayExitParticle(step, duration);
-            
+
             blockRenderer.transform.DOShakeRotation(duration, exitShakeAngle, exitShakeVibrato, 90f, false);
+
             transform.DOMove(outsidePosition, duration)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => Destroy(gameObject));
+                .OnComplete(() => gameObject.SetActive(false));
         }
 
         public void Bump(Vector3 direction)
@@ -88,10 +96,8 @@ namespace ColorBlocks.View
         
         private void PlayExitParticle(Vector3 step, float duration)
         {
-            // The block's front face is at the gate when grinding starts.
             Vector3 gatePoint = transform.position + step * (Block.Length / 2f);
             Quaternion rotation = Quaternion.LookRotation(step);
-
             ParticleSystem particle = Instantiate(exitParticlePrefab, gatePoint, rotation);
 
             var main = particle.main;
