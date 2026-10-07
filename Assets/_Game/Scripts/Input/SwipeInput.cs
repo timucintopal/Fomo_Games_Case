@@ -12,8 +12,8 @@ namespace ColorBlocks.Input
         [SerializeField] private float minSwipePixels = 30f;
         [SerializeField] private LayerMask blockLayer;
 
-        [SerializeField] private BlockView _selected;
-        [SerializeField] private Vector2 _startPosition;
+        private BlockView _selected;
+        private Vector2 _startPosition;
         
         public event Action<BlockView, Direction> OnSwipe;
 
