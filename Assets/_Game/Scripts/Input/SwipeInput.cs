@@ -8,14 +8,19 @@ namespace ColorBlocks.Input
 {
     public class SwipeInput : MonoBehaviour
     {
-        [SerializeField] private Camera cam;
-        [SerializeField] private float minSwipePixels = 30f;
+        [SerializeField] private float minSwipePixels = 70f;
         [SerializeField] private LayerMask blockLayer;
 
-        [SerializeField] private BlockView _selected;
-        [SerializeField] private Vector2 _startPosition;
+        private BlockView _selected;
+        private Vector2 _startPosition;
+        private Camera _camera;
         
         public event Action<BlockView, Direction> OnSwipe;
+
+        public void Init(Camera camera)
+        {
+            _camera = camera;
+        }
 
         private void Update()
         {
@@ -34,17 +39,10 @@ namespace ColorBlocks.Input
             _selected = null;
             _startPosition = screenPosition;
 
-            var ray = cam.ScreenPointToRay(screenPosition);
+            var ray = _camera.ScreenPointToRay(screenPosition);
             
             if(Physics.Raycast(ray, out var hit, Mathf.Infinity, blockLayer))
-            {
-                Debug.Log("SELECT " + hit.collider.name);
                 _selected = hit.collider.GetComponentInParent<BlockView>();
-            }
-            else
-            {
-                Debug.Log("SELECT FAIL");
-            }
         }
         
         private void TrySwipe(Vector2 screenPosition)

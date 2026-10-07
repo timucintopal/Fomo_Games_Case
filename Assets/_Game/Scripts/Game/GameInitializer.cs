@@ -9,29 +9,43 @@ namespace ColorBlocks.Game
     {
         [SerializeField] private TextAsset[] levelFiles;
         [SerializeField] private int levelIndex = 0;
-        [SerializeField] private BoardView boardView;
-        [SerializeField] private SwipeInput swipeInput;
-        [SerializeField] private HudView hudView;
+        [SerializeField] private BoardView boardPrefab;
+        [SerializeField] private SwipeInput swipePrefab;
+        [SerializeField] private HudView hudPrefab;
+        [SerializeField] private BoardCamera boardCam;
+        
+        private BoardView _boardView;
+        private SwipeInput _swipeInput;
+        private HudView _hudView;
 
         private GameController _gameController;
 
         private void Awake()
         {
             var levelLoader = new LevelLoader(levelFiles);
-
-            _gameController = new GameController(levelLoader, boardView, hudView);
-            _gameController.StartLevel(levelIndex);
             
+            Init();
+
+            _gameController = new GameController(levelLoader, _boardView, _hudView, boardCam);
+            _gameController.StartLevel(levelIndex);
+        }
+
+        private void Init()
+        {
+            _boardView = Instantiate(boardPrefab);
+            _swipeInput = Instantiate(swipePrefab);
+            _swipeInput.Init(boardCam.MainCamera);
+            _hudView = Instantiate(hudPrefab);
         }
 
         private void OnEnable()
         {
-            swipeInput.OnSwipe += _gameController.HandleSwipe;
+            _swipeInput.OnSwipe += _gameController.HandleSwipe;
         }
 
         private void OnDisable()
         {
-            swipeInput.OnSwipe -= _gameController.HandleSwipe;
+            _swipeInput.OnSwipe -= _gameController.HandleSwipe;
         }
     }
 }
