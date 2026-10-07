@@ -1,28 +1,43 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace ColorBlocks.View
+namespace ColorBlocks.Core
 {
-    public class Pooler<T> where T : Component
+    public class Pooler
     {
-        private readonly ObjectPool<T> _pool;
+        private readonly Transform _parent;
+        private readonly Dictionary<Component, ObjectPool<Component>> _pools = new Dictionary<Component, ObjectPool<Component>>();
+        private readonly Dictionary<Component, Component> _prefabByItem = new Dictionary<Component, Component>();
 
-        public Pooler(T prefab, Transform parent)
+        public Pooler(Transform parent)
         {
-            _pool = new ObjectPool<T>(
-                createFunc: () => Object.Instantiate(prefab, parent),
+            _parent = parent;
+        }
+
+        public T Get<T>(T prefab) where T : Component
+        {
+            if (!_pools.ContainsKey(prefab))
+                _pools[prefab] = CreatePool(prefab);
+
+            T item = (T)_pools[prefab].Get();
+            _prefabByItem[item] = prefab;
+
+            return item;
+        }
+
+        public void Release(Component item)
+        {
+            Component prefab = _prefabByItem[item];
+            _pools[prefab].Release(item);
+        }
+
+        private ObjectPool<Component> CreatePool(Component prefab)
+        {
+            return new ObjectPool<Component>(
+                createFunc: () => Object.Instantiate(prefab, _parent),
                 actionOnGet: item => item.gameObject.SetActive(true),
                 actionOnRelease: item => item.gameObject.SetActive(false));
-        }
-
-        public T Get()
-        {
-            return _pool.Get();
-        }
-
-        public void Release(T item)
-        {
-            _pool.Release(item);
         }
     }
 }

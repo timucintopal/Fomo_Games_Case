@@ -17,6 +17,7 @@ namespace ColorBlocks.View
         [SerializeField] private float exitShakeAngle = 3f;
         [SerializeField] private int exitShakeVibrato = 30;
         
+        private ParticlePlayer _particlePlayer;
         private Quaternion _modelRotation;
         private Color _color;
         
@@ -29,12 +30,13 @@ namespace ColorBlocks.View
             _modelRotation = blockRenderer.transform.localRotation;
         }
         
-        public void Init(Block block, Texture texture, Color color)
+        public void Init(Block block, Texture texture, Color color, ParticlePlayer particlePlayer)
         {
             IsMoving = false;
             Block = block;
             _color = color;
             blockRenderer.transform.localRotation = _modelRotation;
+            _particlePlayer = particlePlayer;
 
             SetTexture(texture);
         }
@@ -98,13 +100,8 @@ namespace ColorBlocks.View
         {
             Vector3 gatePoint = transform.position + step * (Block.Length / 2f);
             Quaternion rotation = Quaternion.LookRotation(step);
-            ParticleSystem particle = Instantiate(exitParticlePrefab, gatePoint, rotation);
-
-            var main = particle.main;
-            main.startColor = _color;
-            main.duration = duration;
-
-            particle.Play();
+            
+            _particlePlayer.Play(exitParticlePrefab, gatePoint, rotation, _color, duration);
         }
 
     }

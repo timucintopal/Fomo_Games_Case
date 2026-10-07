@@ -7,6 +7,9 @@ namespace ColorBlocks.View
         [SerializeField] private float minDistance = 9f;
         [SerializeField] private float distancePerCell = 1.6f;
         [SerializeField] private float extraDistance = 3f;
+        
+        [SerializeField] private Camera mainCamera;
+        public Camera MainCamera => mainCamera;
 
         public void Fit(int rowCount, int colCount)
         {

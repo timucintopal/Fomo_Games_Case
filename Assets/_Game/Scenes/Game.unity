@@ -272,6 +272,7 @@ MonoBehaviour:
   minDistance: 9
   distancePerCell: 1.6
   extraDistance: 3
+  mainCamera: {fileID: 425893776}
 --- !u!1 &473352829
 GameObject:
   m_ObjectHideFlags: 0

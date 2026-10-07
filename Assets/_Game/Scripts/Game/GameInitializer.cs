@@ -13,8 +13,7 @@ namespace ColorBlocks.Game
         [SerializeField] private SwipeInput swipePrefab;
         [SerializeField] private HudView hudPrefab;
         [SerializeField] private BoardCamera boardCam;
-        [SerializeField] private Camera mainCamera;
-
+        
         private BoardView _boardView;
         private SwipeInput _swipeInput;
         private HudView _hudView;
@@ -35,7 +34,7 @@ namespace ColorBlocks.Game
         {
             _boardView = Instantiate(boardPrefab);
             _swipeInput = Instantiate(swipePrefab);
-            _swipeInput.Init(mainCamera);
+            _swipeInput.Init(boardCam.MainCamera);
             _hudView = Instantiate(hudPrefab);
         }
 

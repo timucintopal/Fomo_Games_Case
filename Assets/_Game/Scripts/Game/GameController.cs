@@ -38,8 +38,8 @@ namespace ColorBlocks.Game
             _levelIndex = levelIndex;
             _level = _levelLoader.Load(levelIndex);
             _movesLeft = _level.MoveLimit;
-
             _board = new Board(_level);
+            
             _boardView.Build(_level, _board);
             _boardCamera.Fit(_level.RowCount, _level.ColCount);
 

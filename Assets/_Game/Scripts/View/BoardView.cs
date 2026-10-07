@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ColorBlocks.Core;
 using ColorBlocks.Data;
@@ -11,30 +12,20 @@ namespace ColorBlocks.View
         [SerializeField] private ExitView exitPrefab;
         [SerializeField] private BlockView[] blockPrefabs; // index = block length - 1
         [SerializeField] private ColorPalette palette;
+        [SerializeField] private ParticlePlayer particlePlayer;
 
         private Vector3 _origin;
         private LevelData _levelData;
         private Board _board;
-        
-        private Pooler<Transform> _cellPool;
-        private Pooler<ExitView> _exitPool;
-        private Pooler<BlockView>[] _blockPools; 
+        private Pooler _pooler;
 
         private static readonly int BoardBounds = Shader.PropertyToID("_BoardBounds");
         
-        private readonly List<Transform> _cells = new List<Transform>();
-        private readonly List<ExitView> _exits = new List<ExitView>();
-        private readonly List<BlockView> _blockViews = new List<BlockView>(); 
+        private readonly List<Component> _spawned = new List<Component>();
 
         private void Awake()
         {
-            _cellPool = new Pooler<Transform>(cellPrefab.transform, transform);
-            _exitPool = new Pooler<ExitView>(exitPrefab, transform);
-            
-            _blockPools = new Pooler<BlockView>[blockPrefabs.Length];
-
-            for (int i = 0; i < blockPrefabs.Length; i++)
-                _blockPools[i] = new Pooler<BlockView>(blockPrefabs[i], transform);
+            _pooler = new Pooler(transform);
         }
 
         public void Build(LevelData level, Board board)
@@ -64,26 +55,20 @@ namespace ColorBlocks.View
         
         private void Clear()
         {
-            foreach (var cellView in _cells)
-                _cellPool.Release(cellView);
-            _cells.Clear();
+            foreach (var item in _spawned)
+                _pooler.Release(item);
 
-            foreach (var exitView in _exits)
-                _exitPool.Release(exitView);
-            _exits.Clear();
-
-            foreach (var blockView in _blockViews)
-                _blockPools[blockView.Block.Length - 1].Release(blockView);
-            _blockViews.Clear();
+            _spawned.Clear();
         }
         
         private void BuildCells()
         {
             foreach (var cell in _levelData.CellInfo)
             {
-                Transform cellView = _cellPool.Get();
+                Transform cellView = _pooler.Get(cellPrefab.transform);
                 cellView.position = GridToWorld(new Vector2Int(cell.Col, cell.Row));
-                _cells.Add(cellView);
+
+                _spawned.Add(cellView);
             }
         }
 
@@ -93,21 +78,21 @@ namespace ColorBlocks.View
             {
                 Vector3 firstCell = GridToWorld(block.GetCell(0));
                 Vector3 lastCell = GridToWorld(block.GetCell(block.Length - 1));
-                
+
                 Vector3 position = (firstCell + lastCell) / 2f;
                 Quaternion rotation = block.IsVertical ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-                BlockView blockView = _blockPools[block.Length - 1].Get();
-                
+
+                BlockView blockView = _pooler.Get(blockPrefabs[block.Length - 1]);
                 blockView.transform.SetPositionAndRotation(position, rotation);
-                
+
                 var texture = palette.GetBlockTexture(block.Color, block.Length, block.IsVertical);
                 var color = palette.GetColor(block.Color);
-                
-                blockView.Init(block, texture, color);
-                _blockViews.Add(blockView);
+
+                blockView.Init(block, texture, color, particlePlayer);
+                _spawned.Add(blockView);
             }
         }
-        
+
         private void BuildExits()
         {
             foreach (var exit in _levelData.ExitInfo)
@@ -115,14 +100,15 @@ namespace ColorBlocks.View
                 // An exit sits just outside its cell, on the side it opens to.
                 Vector2Int exitCell = new Vector2Int(exit.Col, exit.Row);
                 Vector2Int outsideCell = exitCell + exit.Direction.ToOffset();
+
                 Vector3 position = GridToWorld(outsideCell);
                 Quaternion rotation = Quaternion.Euler(0f, 90f * (int)exit.Direction, 0f);
 
-                ExitView exitView = _exitPool.Get();
+                ExitView exitView = _pooler.Get(exitPrefab);
                 exitView.transform.SetPositionAndRotation(position, rotation);
                 exitView.SetColor(palette.GetColor(exit.Colors));
 
-                _exits.Add(exitView);
+                _spawned.Add(exitView);
             }
         }
 
