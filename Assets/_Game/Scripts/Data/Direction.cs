@@ -12,6 +12,7 @@ namespace ColorBlocks.Data
 
     public static class DirectionExtensions
     {
+        // x = column, y = row. Row 0 is the top row, so moving up decreases y.
         public static Vector2Int ToOffset(this Direction direction)
         {
             switch (direction)

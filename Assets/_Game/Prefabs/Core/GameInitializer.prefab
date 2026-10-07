@@ -49,8 +49,8 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 6fe230ddb5ba94dc1a898508ab1c7938, type: 3}
   - {fileID: 4900000, guid: 8faf2ee4ffa7441578cec0bf436d4c07, type: 3}
   - {fileID: 4900000, guid: d1b289677fd50480184df3b971b74fc2, type: 3}
-  levelIndex: 0
   boardPrefab: {fileID: 3204907711617722654, guid: 00fdf17831b4c49dd845f6778f157d1f, type: 3}
   swipePrefab: {fileID: 6521625988773387267, guid: 3b69302bd3d254016966d8c5bae4819d, type: 3}
   hudPrefab: {fileID: 3717303808368537709, guid: 063a482c3083245ef9ad74c3eadf33c4, type: 3}
-  boardCamPrefab: {fileID: 0}
+  boardCam: {fileID: 0}
+  levelCatalog: {fileID: 11400000, guid: 63e4ca9b5ed2c4484b38764614e3b4ce, type: 2}
