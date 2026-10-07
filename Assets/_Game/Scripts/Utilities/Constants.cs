@@ -1,4 +1,4 @@
-namespace ColorBlocks.Core
+namespace ColorBlocks.Utilities
 {
     public static class Constants
     {

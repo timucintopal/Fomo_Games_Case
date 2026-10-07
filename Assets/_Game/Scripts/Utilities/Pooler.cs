@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace ColorBlocks.Core
+namespace ColorBlocks.Utilities
 {
     public class Pooler
     {
