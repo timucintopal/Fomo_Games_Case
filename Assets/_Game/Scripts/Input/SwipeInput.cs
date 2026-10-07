@@ -37,14 +37,7 @@ namespace ColorBlocks.Input
             var ray = cam.ScreenPointToRay(screenPosition);
             
             if(Physics.Raycast(ray, out var hit, Mathf.Infinity, blockLayer))
-            {
-                Debug.Log("SELECT " + hit.collider.name);
                 _selected = hit.collider.GetComponentInParent<BlockView>();
-            }
-            else
-            {
-                Debug.Log("SELECT FAIL");
-            }
         }
         
         private void TrySwipe(Vector2 screenPosition)

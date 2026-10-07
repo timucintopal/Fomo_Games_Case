@@ -17,8 +17,6 @@ namespace ColorBlocks.Core
         public Board(LevelData level)
         {
             _exits = level.ExitInfo;
-            _cells.Clear();
-            _blocks.Clear();
             
             foreach (var cell in level.CellInfo)
                 _cells.Add(new Vector2Int(cell.Col, cell.Row));

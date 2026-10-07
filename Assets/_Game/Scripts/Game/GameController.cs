@@ -8,24 +8,20 @@ namespace ColorBlocks.Game
 {
     public class GameController
     {
+        private const float LevelEndDelay = 1f;
+        
         private readonly LevelLoader _levelLoader;
         private readonly BoardView _boardView;
         private readonly BoardCamera _boardCamera;
-
-        private Board _board;
-        
         private readonly HudView _hudView;
 
+        private Board _board;
         private LevelData _level;
         private int _levelIndex;
         private int _movesLeft;
+        private bool _isLevelOver;
 
         private bool HasMoveLimit => _level.MoveLimit > 0;
-        
-        private const float LevelEndDelay = 1f;
-
-        private bool _isLevelOver;
-        
 
         public GameController(LevelLoader levelLoader, BoardView boardView, HudView hudView, BoardCamera boardCamera)
         {
@@ -69,16 +65,14 @@ namespace ColorBlocks.Game
             
             Block block = blockView.Block;
 
-            if (!block.CanMove(direction))
-                return;
+            if (!block.CanMove(direction)) return;
 
             int steps = _board.CountFreeSteps(block, direction);
             block.Move(direction, steps);
 
             bool exited = _board.TryExit(block, direction);
 
-            if (steps == 0 && !exited)
-                return;
+            if (steps == 0 && !exited) return;
 
             int viewSteps = steps;
             if (exited)
