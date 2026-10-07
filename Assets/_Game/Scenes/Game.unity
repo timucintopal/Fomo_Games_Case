@@ -153,8 +153,6 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 8
-  _selected: {fileID: 0}
-  _startPosition: {x: 0, y: 0}
 --- !u!4 &294449229
 Transform:
   m_ObjectHideFlags: 0
@@ -1171,7 +1169,7 @@ PrefabInstance:
       objectReference: {fileID: 1042655937}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: levelIndex
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: swipeInput

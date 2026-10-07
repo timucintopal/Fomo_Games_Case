@@ -69,8 +69,9 @@ namespace ColorBlocks.View
 
                 var blockView = Instantiate(blockPrefabs[block.Length - 1], position, rotation, transform);
                 var texture = palette.GetBlockTexture(block.Color, block.Length, block.IsVertical);
-
-                blockView.Init(block, texture);
+                var color = palette.GetColor(block.Color);
+                
+                blockView.Init(block, texture, color);
             }
         }
         

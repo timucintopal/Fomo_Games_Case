@@ -45,3 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.BlockView
   blockRenderer: {fileID: 0}
+  exitParticlePrefab: {fileID: 1638051972134699277, guid: 455d43244d5ff43aea51c954d8f4585d, type: 3}
+  secondsPerCell: 0.1
+  bumpDistance: 0.1
+  bumpDuration: 0.2
+  exitSecondsPerCell: 0.3
+  exitShakeStrength: 0.1
+  exitShakeAngle: 3
+  exitShakeVibrato: 30

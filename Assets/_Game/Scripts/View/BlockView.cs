@@ -9,6 +9,7 @@ namespace ColorBlocks.View
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
 
         [SerializeField] private Renderer blockRenderer;
+        [SerializeField] private ParticleSystem exitParticlePrefab;
         [SerializeField] private float secondsPerCell = 0.1f;
         [SerializeField] private float bumpDistance = 0.1f;
         [SerializeField] private float bumpDuration = 0.2f;
@@ -17,15 +18,17 @@ namespace ColorBlocks.View
         [SerializeField] private float exitShakeAngle = 3f;
         [SerializeField] private int exitShakeVibrato = 30;
         
+        private Color _color;
         private Tween _tween;
         
         public bool IsMoving { get; private set; }
         
         public Block Block { get; private set; }
         
-        public void Init(Block block, Texture texture)
+        public void Init(Block block, Texture texture, Color color)
         {
             Block = block;
+            _color = color;
             SetTexture(texture);
         }
 
@@ -67,8 +70,9 @@ namespace ColorBlocks.View
             Vector3 outsidePosition = transform.position + step * Block.Length;
             float duration = Block.Length * exitSecondsPerCell;
 
+            PlayExitParticle(step, duration);
+            
             blockRenderer.transform.DOShakeRotation(duration, exitShakeAngle, exitShakeVibrato, 90f, false);
-
             transform.DOMove(outsidePosition, duration)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => Destroy(gameObject));
@@ -80,6 +84,21 @@ namespace ColorBlocks.View
 
             transform.DOPunchPosition(direction * bumpDistance, bumpDuration)
                 .OnComplete(() => IsMoving = false);
+        }
+        
+        private void PlayExitParticle(Vector3 step, float duration)
+        {
+            // The block's front face is at the gate when grinding starts.
+            Vector3 gatePoint = transform.position + step * (Block.Length / 2f);
+            Quaternion rotation = Quaternion.LookRotation(step);
+
+            ParticleSystem particle = Instantiate(exitParticlePrefab, gatePoint, rotation);
+
+            var main = particle.main;
+            main.startColor = _color;
+            main.duration = duration;
+
+            particle.Play();
         }
 
     }
