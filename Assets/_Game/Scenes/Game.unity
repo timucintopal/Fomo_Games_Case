@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 425893776}
   - component: {fileID: 425893775}
   - component: {fileID: 425893778}
+  - component: {fileID: 425893779}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -307,6 +308,20 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &425893779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425893774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42923d94019c4949a87c3ea0018f462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorBlocks.View.BoardCamera
+  distancePerCell: 1.6
+  extraDistance: 3
 --- !u!1 &473352829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1177,10 @@ PrefabInstance:
       propertyPath: swipeInput
       value: 
       objectReference: {fileID: 294449228}
+    - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
+      propertyPath: boardCamera
+      value: 
+      objectReference: {fileID: 425893779}
     - target: {fileID: 4909450001471593742, guid: 7489fa078b8204994972b19a38e36061, type: 3}
       propertyPath: 'levelFiles.Array.data[0]'
       value: 

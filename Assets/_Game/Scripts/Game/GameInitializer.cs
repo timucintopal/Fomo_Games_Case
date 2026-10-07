@@ -12,6 +12,7 @@ namespace ColorBlocks.Game
         [SerializeField] private BoardView boardView;
         [SerializeField] private SwipeInput swipeInput;
         [SerializeField] private HudView hudView;
+        [SerializeField] private BoardCamera boardCamera;
 
         private GameController _gameController;
 
@@ -19,7 +20,7 @@ namespace ColorBlocks.Game
         {
             var levelLoader = new LevelLoader(levelFiles);
 
-            _gameController = new GameController(levelLoader, boardView, hudView);
+            _gameController = new GameController(levelLoader, boardView, hudView, boardCamera);
             _gameController.StartLevel(levelIndex);
             
         }

@@ -10,6 +10,7 @@ namespace ColorBlocks.Game
     {
         private readonly LevelLoader _levelLoader;
         private readonly BoardView _boardView;
+        private readonly BoardCamera _boardCamera;
 
         private Board _board;
         
@@ -26,11 +27,12 @@ namespace ColorBlocks.Game
         private bool _isLevelOver;
         
 
-        public GameController(LevelLoader levelLoader, BoardView boardView, HudView hudView)
+        public GameController(LevelLoader levelLoader, BoardView boardView, HudView hudView, BoardCamera boardCamera)
         {
             _hudView = hudView;
             _levelLoader = levelLoader;
             _boardView = boardView;
+            _boardCamera = boardCamera;
         }
 
         public void StartLevel(int levelIndex)
@@ -43,6 +45,7 @@ namespace ColorBlocks.Game
 
             _board = new Board(_level);
             _boardView.Build(_level, _board);
+            _boardCamera.Fit(_level.RowCount, _level.ColCount);
 
             UpdateHud();
         }
